@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import s from "components/PhoneForm/PhoneForm.module.css";
 
 class PhoneForm extends Component {
   state = {
@@ -11,26 +12,8 @@ class PhoneForm extends Component {
     this.setState({ [e.currentTarget.name]: data });
   };
 
-  addToContacts = (e, database) => {
+  addToContacts = (e) => {
     e.preventDefault();
-    // this.setState((prevState)=>{
-    //   let newArr=[];
-    //   const newItem = {
-    //     name:this.state.name,
-    //     number:this.state.number,
-    //     id: uuidv4()
-    //   };
-
-    //   if(this.state.contacts.length !== 0){
-    //     newArr=[
-    //         ...prevState.contacts,
-    //        newItem
-    //       ]
-    //   }
-    //   newArr=[newItem]
-    //   console.log(newArr)
-    //   return {contacts: newArr}
-    // })
     this.props.onSubmit(this.state);
     this.resetForm();
   };
@@ -44,10 +27,11 @@ class PhoneForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.addToContacts}>
-        <label>
+      <form onSubmit={this.addToContacts} className={s.form}>
+        <label className={s.formLabel}>
           Name
           <input
+            className={s.formInput}
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -57,9 +41,10 @@ class PhoneForm extends Component {
             onChange={this.handleInputChange}
           />
         </label>
-        <label>
+        <label className={s.formLabel}>
           Number
           <input
+            className={s.formInput}
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -69,7 +54,9 @@ class PhoneForm extends Component {
             onChange={this.handleInputChange}
           />
         </label>
-        <button type="submit">Add to contacts</button>
+        <button className={s.addToContacts} type="submit">
+          Add to contacts
+        </button>
       </form>
     );
   }

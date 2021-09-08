@@ -1,107 +1,74 @@
 import PhoneForm from "components/PhoneForm/PhoneForm";
-// import ContactsList from "components/Contacts/Contacts";
 import React from "react";
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
 import FilterContacts from "components/FilterContacts/FilterContacts";
-import ContactsList from "components/Contacts/Contacts";
+import ContactList from "components/ContactList/ContactList";
+import MainContainer from "components/MainContainer/MainContainer";
 
 class App extends React.Component {
   constructor() {
     super();
-    // this.formSubmitHandler = this.formSubmitHandler.bind(this);
-    // this.filterField = this.filterField.bind(this);
 
     this.state = {
-      contacts: [],
+      contacts: [
+        //     {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+        // {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+        // {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+        // {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
+      ],
       filter: "",
     };
   }
 
   formSubmitHandler = (data) => {
-    console.log(data);
-    this.setState((prevState) => {
-      let newArr = [];
-      const newItem = {
-        name: data.name,
-        number: data.number,
-        id: uuidv4(),
-      };
+    this.state.contacts.find(
+      (item) =>
+        item.name.toLowerCase().trim() === data.name.toLowerCase().trim()
+    )
+      ? alert(`${data.name} is already in contacts`)
+      : this.setState((prevState) => {
+          let newArr = [];
+          const newItem = {
+            name: data.name,
+            number: data.number,
+            id: uuidv4(),
+          };
 
-      newArr = [...prevState.contacts, newItem];
-      return { contacts: newArr };
-    });
+          newArr = [...prevState.contacts, newItem];
+          return { contacts: newArr };
+        });
   };
 
-  handleFilterField = (info) => {
-    console.log(info);
-    this.setState = { filter: info };
+  handleFilterField = (event) => this.setState({ filter: event.target.value });
+
+  handleInputChange = (e) =>
+    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+
+  deleteButtonHandler = (id) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => {
+        return contact.id !== id;
+      }),
+    }));
   };
-
-  handleInputChange = (e) => {
-    const data = e.currentTarget.value;
-    this.setState({ [e.currentTarget.name]: data });
-  };
-
-  // renderContacts = () => {
-  //   const database = this.state.contacts;
-  //   return(
-  //     <div>
-  //     <h2>Contacts: </h2>
-  //     <form onChange={this.filterContacts}>
-  //       <label>
-  //         Find contacts by name
-  //         <input type="text" name="filter" value={this.state.filter}
-  //             onChange={this.handleInputChange}/>
-  //       </label>
-  //     </form>
-  //     <ul>
-  //     { database.map((item) => {
-  //       return (
-  //       <li key={item.id}>{item.name}: {item.number}</li>
-  //       )
-  //     })
-  //     }
-  //     </ul>
-  //   </div>
-  //   )
-  // }
-
-  // filterContacts = (e)=> {
-  //   const database=this.state.contacts;
-  //   const filtered = database.filter((item) => item.name.toLowerCase().includes(this.state.filter.toLowerCase())
-  // );
-
-  //   return(  <div>
-  //     <h2>Contacts: </h2>
-  //     <form onChange={this.handleInputChange}>
-  //       <label>
-  //         Find contacts by name
-  //         <input type="text" name="filter"
-  //             onChange={this.handleInputChange}/>
-  //       </label>
-  //     </form>
-  //     <ul>
-  //     { filtered.map((item) => {
-  //       return (
-  //       <li key={item.id}>{item.name}: {item.number}</li>
-  //       )
-  //     })
-  //     }
-  //     </ul>
-  //   </div> )
-  // }
 
   render() {
-    console.log(this.state.filter);
     return (
       <>
-        <h1>Phonebook</h1>
-        <PhoneForm onSubmit={this.formSubmitHandler} />
-        <h2>Contacts:</h2>
-        <FilterContacts data={this.state} onSubmit={this.handleFilterField} />
-        {/* <this.filterContacts database={this.state.contacts}/> */}
-        <ContactsList data={this.state} />
+        <MainContainer>
+          <h1>Phonebook</h1>
+          <PhoneForm onSubmit={this.formSubmitHandler} />
+          <h2>Contacts:</h2>
+          <FilterContacts
+            value={this.state.filter}
+            onSubmit={this.handleFilterField}
+          />
+          <ContactList
+            data={this.state}
+            onDeleteItem={this.deleteButtonHandler}
+          />
+        </MainContainer>
       </>
     );
   }
