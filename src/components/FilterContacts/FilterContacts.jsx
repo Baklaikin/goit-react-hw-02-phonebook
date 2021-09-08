@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import ContactsList from "components/Contacts/Contacts";
+import ContactsList from "components/Contacts/Contacts";
 
 class FilterContacts extends Component {
   state = {
@@ -7,23 +7,8 @@ class FilterContacts extends Component {
   };
 
   onInputAdd = (e) => {
-    this.setState({ filter: e.target.value });
-    // const filterValue = this.state.filter;
-    // this.props.onSubmit(filterValue);
-    // console.log(this.props.value)
-    this.props.onSubmit(this.state.filter);
-  };
-
-  //     resetForm=() => {
-  //       this.setState({
-  //         filter: "",
-  //     })
-  // }
-
-  dataTransfer = (e) => {
-    // e.preventDefault();
-    this.props.onSubmit(e.target.value);
-    // this.resetForm();
+    const value = e.target.value;
+    this.setState({ filter: value });
   };
 
   twoInOne = (e) => {
@@ -36,7 +21,7 @@ class FilterContacts extends Component {
     // const filtered = database.filter(item => {return item.name.toLowerCase().includes(this.state.filter.toLowerCase())})
     return (
       <div>
-        <form>
+        <form onChange={this.twoInOne}>
           <label>
             Find contacts by name
             <input type="text" name="filter" onChange={this.twoInOne} />
@@ -57,12 +42,20 @@ class FilterContacts extends Component {
 
   render() {
     return (
+      // <>
       <form>
         <label>
           Find contacts by name
-          <input type="text" name="filter" onChange={this.twoInOne} />
+          <input
+            type="text"
+            name="filter"
+            value={this.state.filter}
+            onChange={this.twoInOne}
+          />
         </label>
       </form>
+      /* <ContactsList data={this.state} value={this.props.data.contacts}/>
+      </> */
     );
   }
 }

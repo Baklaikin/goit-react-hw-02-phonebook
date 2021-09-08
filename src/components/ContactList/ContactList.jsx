@@ -1,9 +1,9 @@
-function ContactList({ data }) {
-  const database = this.props.value.contacts;
-  const filtered = database.filter((item) => {
+const ContactList = ({ data }) => {
+  const { contacts } = this.props.data;
+  const filtered = contacts.filter((item) => {
     return item.name
       .toLowerCase()
-      .includes(this.props.value.filter.toLowerCase());
+      .includes(this.props.data.filter.toLowerCase());
   });
   return (
     <ul>
@@ -16,6 +16,6 @@ function ContactList({ data }) {
       })}
     </ul>
   );
-}
+};
 
 export default ContactList;

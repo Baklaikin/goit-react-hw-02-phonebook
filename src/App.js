@@ -9,8 +9,8 @@ import ContactsList from "components/Contacts/Contacts";
 class App extends React.Component {
   constructor() {
     super();
-    this.formSubmitHandler = this.formSubmitHandler.bind(this);
-    this.filterField = this.filterField.bind(this);
+    // this.formSubmitHandler = this.formSubmitHandler.bind(this);
+    // this.filterField = this.filterField.bind(this);
 
     this.state = {
       contacts: [],
@@ -33,7 +33,7 @@ class App extends React.Component {
     });
   };
 
-  filterField = (info) => {
+  handleFilterField = (info) => {
     console.log(info);
     this.setState = { filter: info };
   };
@@ -93,13 +93,13 @@ class App extends React.Component {
   // }
 
   render() {
-    console.log(this.state);
+    console.log(this.state.filter);
     return (
       <>
         <h1>Phonebook</h1>
         <PhoneForm onSubmit={this.formSubmitHandler} />
         <h2>Contacts:</h2>
-        <FilterContacts onSubmit={this.filterField} />
+        <FilterContacts data={this.state} onSubmit={this.handleFilterField} />
         {/* <this.filterContacts database={this.state.contacts}/> */}
         <ContactsList data={this.state} />
       </>
